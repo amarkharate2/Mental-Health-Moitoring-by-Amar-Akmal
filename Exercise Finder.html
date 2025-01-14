@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Finder - Mind Care</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f7ff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 70%;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4682B4;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #333;
+        }
+
+        select {
+            width: 220px;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border: 2px solid #4682B4;
+            background-color: #fff;
+        }
+
+        button {
+            background-color: #4682B4;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #5b9bd5;
+            transform: translateY(-2px);
+        }
+
+        .exercise-list {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #e0f7fa;
+            border: 2px solid #b3e5fc;
+            border-radius: 10px;
+        }
+
+        .exercise {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .exercise h3 {
+            color: #4682B4;
+            margin-bottom: 10px;
+        }
+
+        .exercise p {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Exercise Finder Container -->
+    <div class="container">
+        <h1>Exercise Finder</h1>
+
+        <!-- Selection Options -->
+        <form id="exerciseForm">
+            <label for="activity">Select an Activity:</label><br>
+            <select id="activity">
+                <option value="strength">Strength Exercise</option>
+                <option value="endurance">Endurance Exercise</option>
+                <option value="flexibility">Flexibility Exercise</option>
+                <option value="peace">Peaceful Exercise</option>
+            </select><br>
+
+            <label for="level">Select a Level:</label><br>
+            <select id="level">
+                <option value="beginner">Beginner Exercise</option>
+                <option value="intermediate">Intermediate Exercise</option>
+                <option value="advanced">Advanced Exercise</option>
+            </select><br>
+
+            <!-- Submit Button -->
+            <button type="button" onclick="showExercises()">Submit</button>
+        </form>
+
+        <!-- Display Exercise List -->
+        <div id="exerciseList" class="exercise-list"></div>
+    </div>
+
+    <!-- JavaScript to Display Exercises -->
+    <script>
+        // Predefined exercise data based on activity and level
+        const exercises = {
+            strength: {
+                beginner: [
+                    { name: "Push-Ups", difficulty: "Beginner", type: "Strength Exercise", muscles: "Chest, Triceps", instructions: "Start in a plank position. Lower down and push up." },
+                    { name: "Bodyweight Squats", difficulty: "Beginner", type: "Strength Exercise", muscles: "Legs, Glutes", instructions: "Stand shoulder-width apart, lower yourself down, and push back up." },
+                    { name: "Knee Push-Ups", difficulty: "Beginner", type: "Strength Exercise", muscles: "Chest, Shoulders", instructions: "Lower knees and perform push-ups." }
+                ],
+                intermediate: [
+                    { name: "Incline Hammer Curls", difficulty: "Intermediate", type: "Strength Exercise", muscles: "Biceps", instructions: "Sit on an incline bench with dumbbells and curl upwards." },
+                    { name: "Seated Shoulder Press", difficulty: "Intermediate", type: "Strength Exercise", muscles: "Shoulders, Triceps", instructions: "Sit upright, lift dumbbells overhead, and lower back down." },
+                    { name: "Lunges", difficulty: "Intermediate", type: "Strength Exercise", muscles: "Legs, Glutes", instructions: "Step forward, lower body, and push back up." },
+                    { name: "Bent Over Rows", difficulty: "Intermediate", type: "Strength Exercise", muscles: "Back, Biceps", instructions: "Hinge at hips, lift weights towards chest." }
+                ],
+                advanced: [
+                    { name: "Weighted Pull-Ups", difficulty: "Advanced", type: "Strength Exercise", muscles: "Back, Biceps", instructions: "Perform pull-ups with a weighted vest or belt." },
+                    { name: "Barbell Deadlift", difficulty: "Advanced", type: "Strength Exercise", muscles: "Legs, Lower Back", instructions: "Lift a barbell from the ground using your legs and back." },
+                    { name: "Clean and Press", difficulty: "Advanced", type: "Strength Exercise", muscles: "Full Body", instructions: "Lift barbell from ground to shoulders, then press overhead." },
+                    { name: "Front Squats", difficulty: "Advanced", type: "Strength Exercise", muscles: "Legs, Core", instructions: "Hold barbell at shoulders, lower down, and push up." }
+                ]
+            },
+            endurance: {
+                beginner: [
+                    { name: "Brisk Walking", difficulty: "Beginner", type: "Endurance Exercise", muscles: "Legs", instructions: "Walk at a brisk pace for 15-30 minutes." },
+                    { name: "Jumping Jacks", difficulty: "Beginner", type: "Endurance Exercise", muscles: "Full Body", instructions: "Jump and spread your arms and legs simultaneously." },
+                    { name: "Marching in Place", difficulty: "Beginner", type: "Endurance Exercise", muscles: "Legs, Cardiovascular", instructions: "Lift knees high and march in place." }
+                ],
+                intermediate: [
+                    { name: "Jogging", difficulty: "Intermediate", type: "Endurance Exercise", muscles: "Legs, Cardiovascular", instructions: "Jog at a steady pace for 20-40 minutes." },
+                    { name: "Swimming", difficulty: "Intermediate", type: "Endurance Exercise", muscles: "Full Body", instructions: "Swim continuously for 30 minutes." },
+                    { name: "Cycling", difficulty: "Intermediate", type: "Endurance Exercise", muscles: "Legs, Cardiovascular", instructions: "Cycle at a steady pace for 30 minutes." }
+                ],
+                advanced: [
+                    { name: "Sprinting", difficulty: "Advanced", type: "Endurance Exercise", muscles: "Legs, Cardiovascular", instructions: "Sprint for 30 seconds followed by 1-minute rest." },
+                    { name: "Stair Climbing", difficulty: "Advanced", type: "Endurance Exercise", muscles: "Legs, Cardiovascular", instructions: "Run up and down stairs for 15 minutes." },
+                    { name: "Mountain Climbers", difficulty: "Advanced", type: "Endurance Exercise", muscles: "Full Body", instructions: "From plank, alternate knees to chest quickly." }
+                ]
+            },
+            flexibility: {
+                beginner: [
+                    { name: "Cat-Cow Stretch", difficulty: "Beginner", type: "Flexibility Exercise", muscles: "Back, Core", instructions: "Get on hands and knees, alternate arching and rounding your back." },
+                    { name: "Forward Fold", difficulty: "Beginner", type: "Flexibility Exercise", muscles: "Hamstrings, Back", instructions: "Stand tall, bend forward at hips, reaching for toes." }
+                ],
+                intermediate: [
+                    { name: "Seated Forward Bend", difficulty: "Intermediate", type: "Flexibility Exercise", muscles: "Hamstrings, Lower Back", instructions: "Sit with legs extended forward and bend over to touch your toes." },
+                    { name: "Low Lunge", difficulty: "Intermediate", type: "Flexibility Exercise", muscles: "Hip Flexors, Legs", instructions: "Step one leg forward and lower hips to the ground, stretching the hip flexors." }
+                ],
+                advanced: [
+                    { name: "Pigeon Pose", difficulty: "Advanced", type: "Flexibility Exercise", muscles: "Hips, Glutes", instructions: "Bring one leg forward in front of you and extend the other leg straight back, lowering the hips." },
+                    { name: "Wheel Pose", difficulty: "Advanced", type: "Flexibility Exercise", muscles: "Back, Chest, Shoulders", instructions: "Lie on your back and lift your body into an arch, supporting on hands and feet." }
+                ]
+            },
+            peace: {
+                beginner: [
+                    { name: "Deep Breathing", difficulty: "Beginner", type: "Peaceful Exercise", muscles: "Mind, Lungs", instructions: "Sit comfortably, breathe deeply through your nose, hold for a few seconds, then exhale slowly." },
+                    { name: "Guided Meditation", difficulty: "Beginner", type: "Peaceful Exercise", muscles: "Mind", instructions: "Sit in a quiet space, close your eyes, and follow a guided meditation for 10-20 minutes." }
+                ],
+                intermediate: [
+                    { name: "Yoga Nidra", difficulty: "Intermediate", type: "Peaceful Exercise", muscles: "Mind, Full Body", instructions: "Lie down in a comfortable position, follow a guided Yoga Nidra session to achieve a deep state of relaxation." },
+                    { name: "Tai Chi", difficulty: "Intermediate", type: "Peaceful Exercise", muscles: "Full Body, Mind", instructions: "Perform slow, controlled movements to promote balance and relaxation." }
+                ],
+                advanced: [
+                    { name: "Silent Meditation", difficulty: "Advanced", type: "Peaceful Exercise", muscles: "Mind", instructions: "Sit in silence for an extended period, focusing on your breath or clearing your mind." },
+                    { name: "Zen Walking", difficulty: "Advanced", type: "Peaceful Exercise", muscles: "Mind, Full Body", instructions: "Walk slowly, mindfully, focusing on each step and your breath." }
+                ]
+            }
+        };
+
+        // Function to display exercises based on user input
+        function showExercises() {
+            const activity = document.getElementById("activity").value;
+            const level = document.getElementById("level").value;
+            const exerciseList = document.getElementById("exerciseList");
+
+            // Get exercises based on selected activity and level
+            const selectedExercises = exercises[activity][level];
+
+            // Display exercises in HTML
+            exerciseList.innerHTML = "";
+            selectedExercises.forEach(exercise => {
+                exerciseList.innerHTML += `
+                    <div class="exercise">
+                        <h3>${exercise.name}</h3>
+                        <p><strong>Type:</strong> ${exercise.type}</p>
+                        <p><strong>Difficulty:</strong> ${exercise.difficulty}</p>
+                        <p><strong>Muscles Targeted:</strong> ${exercise.muscles}</p>
+                        <p><strong>Instructions:</strong> ${exercise.instructions}</p>
+                    </div>
+                `;
+            });
+        }
+    </script>
+
+</body>
+</html>

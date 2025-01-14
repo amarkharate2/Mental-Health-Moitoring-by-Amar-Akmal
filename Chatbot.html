@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .chat-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-box {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .user-input {
+            width: calc(100% - 100px);
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+        }
+        .user-message {
+            color: #007bff;
+        }
+        .chatbot-message {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <h1>Welcome to the MindCare Chatbot!</h1>
+    <p>I’m here to listen and help with any mental health concerns or questions you may have.</p>
+    <p>You can type 'exit' anytime to end the chat.</p>
+    
+    <div class="chat-box" id="chatBox">
+        <div class="chat-message chatbot-message">Chatbot: Hello! How are you feeling today? I'm here to help!</div>
+    </div>
+
+    <input type="text" id="userInput" class="user-input" placeholder="Type your message here...">
+    <button class="submit-btn" onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    function sendMessage() {
+        const userInput = document.getElementById('userInput').value.trim().toLowerCase();
+        const chatBox = document.getElementById('chatBox');
+        
+        // Don't process empty input
+        if (!userInput) {
+            return;
+        }
+
+        // If the user types 'exit'
+        if (userInput === 'exit') {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: Thank you for sharing with me today. Take care of yourself and remember, your mental health is important. Goodbye!</div>`;
+            document.getElementById('userInput').disabled = true;
+            return;
+        }
+
+        // Add user's message
+        chatBox.innerHTML += `<div class="chat-message user-message">You: ${userInput}</div>`;
+
+        // Add chatbot's response based on user input
+        if (userInput.includes('anxiety') || userInput.includes('anxious') || userInput.includes('worry')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: It sounds like you're feeling anxious. Here are some things you can try:<br>
+            1. Practice deep breathing: Inhale for 4 counts, hold for 4, exhale for 4.<br>
+            2. Focus on the present moment: Ground yourself by noticing what you can see, hear, or touch.<br>
+            3. Try progressive muscle relaxation: Tense and release each muscle group starting from your toes.<br>
+            4. Take a break from stressors: Engage in a calming activity like a short walk or listening to soothing music.<br>
+            5. Reach out to someone you trust for a conversation.</div>`;
+        } else if (userInput.includes('broken') || userInput.includes('depressed') || userInput.includes('unhappy')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: I'm really sorry you're feeling this way. Here are a few things that may help:<br>
+            1. Reach out to a friend, family member, or support group. It's important to talk about what you're going through.<br>
+            2. Consider doing something creative: painting, journaling, or even cooking can help lift your mood.<br>
+            3. Try physical exercise: Even a short walk or stretching can help release endorphins and improve your mood.<br>
+            4. Practice self-compassion: Treat yourself with the kindness you'd offer to a friend.<br>
+            5. If you feel like this is lasting, seeking a mental health professional could be beneficial.</div>`;
+        } else if (userInput.includes('angry') || userInput.includes('frustrated') || userInput.includes('irritated')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: Anger can be hard to manage, but here are some ways to calm down:<br>
+            1. Take a timeout: Step away from the situation that’s making you angry.<br>
+            2. Practice deep breathing or counting to 10 before reacting.<br>
+            3. Try physical activity like going for a jog, stretching, or doing yoga to release tension.<br>
+            4. Write down your feelings in a journal to get them out of your system.<br>
+            5. Find an outlet to express your emotions creatively, such as through art or music.</div>`;
+        } else if (userInput.includes('stressed') || userInput.includes('tension') || userInput.includes('overwhelmed')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: Stress can feel heavy, but there are things you can do to manage it:<br>
+            1. Break tasks into smaller steps and prioritize one at a time.<br>
+            2. Take breaks throughout your day to clear your mind and reset.<br>
+            3. Practice mindfulness or meditation to calm your nervous system.<br>
+            4. Make sure you are sleeping enough and eating well-balanced meals.<br>
+            5. Try a stress-relief activity like yoga, or even a soothing bath.</div>`;
+        } else if (userInput.includes('lonely') || userInput.includes('isolated') || userInput.includes('alone')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: I'm sorry you're feeling lonely. Here are some ways to cope:<br>
+            1. Reach out to someone you trust, whether it's a friend, family member, or counselor.<br>
+            2. Try joining online communities or activities that align with your interests.<br>
+            3. Engage in hobbies you enjoy, like reading, painting, or playing a musical instrument.<br>
+            4. Consider volunteering or helping others – it can help create a sense of connection.<br>
+            5. Practice self-compassion: Remind yourself that it’s okay to feel this way, and it doesn’t define your worth.</div>`;
+        } else if (userInput.includes('fear') || userInput.includes('scared') || userInput.includes('afraid')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: Fear is a natural emotion, but here are some ways to ease it:<br>
+            1. Practice grounding exercises: Focus on your senses to connect with the present moment.<br>
+            2. Break down what you’re afraid of into smaller, manageable parts and face them step by step.<br>
+            3. Talk about your fears with someone you trust.<br>
+            4. Engage in relaxation techniques, such as deep breathing or progressive muscle relaxation.<br>
+            5. Remind yourself that fear is temporary, and it will pass with time.</div>`;
+        } else if (userInput.includes('suggestion') || userInput.includes('advice') || userInput.includes('help')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: Here are a few things you could try to improve your mental well-being:<br>
+            1. Engage in physical activity like yoga or light exercises to release endorphins.<br>
+            2. Practice mindfulness or meditation daily, even if just for a few minutes.<br>
+            3. Create a routine with time for self-care, hobbies, and relaxation.<br>
+            4. Spend time in nature to refresh your mind and body.<br>
+            5. Build connections with others by sharing your feelings and asking for support when needed.</div>`;
+        } else if (userInput.includes('yoga') || userInput.includes('meditation') || userInput.includes('mindfulness')) {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: Yoga and meditation can really help. Here’s how you can start:<br>
+            1. Start with a basic breathing exercise: Inhale for four counts, hold for four, and exhale for four.<br>
+            2. Try guided meditation videos or apps for a more structured practice.<br>
+            3. Consider starting with simple yoga poses like child’s pose or cat-cow to release tension.<br>
+            4. If you're new to mindfulness, practice being present in daily activities, like eating or walking.<br>
+            5. Incorporate a regular practice into your routine for long-term benefits.</div>`;
+        } else {
+            chatBox.innerHTML += `<div class="chat-message chatbot-message">Chatbot: I'm here to listen. Could you tell me more about how you’re feeling?</div>`;
+        }
+
+        // Scroll to the bottom of the chat box
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Clear the input field
+        document.getElementById('userInput').value = '';
+    }
+</script>
+
+</body>
+</html>

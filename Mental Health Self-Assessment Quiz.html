@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Self-Assessment Quiz</title>
+    <style>
+        /* Insert your quiz CSS styles here (same as provided in your original code) */
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Mental Health Self-Assessment Quiz!</h1>
+    <p>Please answer the following questions to the best of your knowledge. Select an option for each question.</p>
+
+    <form id="surveyForm">
+        <!-- Include your quiz questions here (same as in the original code) -->
+    </form>
+
+    <div class="navigation-btns">
+        <button type="button" id="submitBtn" onclick="calculateScore()">Submit</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function calculateScore() {
+            let totalScore = 0;
+
+            for (let i = 1; i <= 10; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (answer) {
+                    totalScore += parseInt(answer.value);
+                } else {
+                    alert(`Please answer question ${i}`);
+                    return;
+                }
+            }
+
+            let resultText = "Quiz completed. Let's see your results:<br><strong>Total Score: " + totalScore + "</strong><br>";
+
+            if (totalScore <= 10) {
+                resultText += "Your mental health status appears to be in good shape. Keep maintaining a positive mindset!";
+            } else if (totalScore <= 20) {
+                resultText += "You may be experiencing some mild stress. Consider taking time to relax and practice self-care.";
+            } else if (totalScore <= 30) {
+                resultText += "It seems you might be dealing with moderate stress or anxiety. Speaking with a mental health professional may help.";
+            } else if (totalScore <= 40) {
+                resultText += "You may be experiencing significant mental health challenges. It is recommended that you seek support from a mental health expert.";
+            } else {
+                resultText += "Your score indicates that you might be struggling with severe mental health issues. Please reach out to a professional as soon as possible.";
+            }
+
+            resultText += "<br><br>Thank you for taking the assessment. Remember, this quiz is not a diagnostic tool. If you're experiencing mental health issues, seek professional help.";
+            document.getElementById("result").innerHTML = resultText;
+        }
+    </script>
+</body>
+</html>
